@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #f8f9fa;
+    padding: 40px 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+td,
+th {
+    padding: 14px 16px;
+    text-align: right;
+    border: none;
+    border-bottom: 1px solid #e9ecef;
+}
+
+td:first-child,
+th:first-child {
+    text-align: left;
+}
+
+th {
+    background: #f8f9fa;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #666;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+td button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #007bff;
+    color: white;
+    min-width: 75px;
+}
+
+td button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+td button:active {
+    transform: translateY(0);
+}
+
+.checkout-section {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#total {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#checkout {
+    padding: 12px 32px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#newCart {
+    padding: 12px 32px;
+    background: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 20px;
+}
+
+#newCart:hover {
+    background: #138496;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+#checkout:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 22px;
+    }
+
+    td,
+    th {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+
+    td button {
+        padding: 6px 10px;
+        font-size: 12px;
+        min-width: 65px;
+    }
+}
