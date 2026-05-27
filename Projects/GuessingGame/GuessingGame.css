@@ -1,3 +1,8 @@
+/* ============================================================
+   CSS CUSTOM PROPERTIES (variables)
+   Defined once here, reused everywhere with var(--name).
+   Changing a value here updates every element that uses it.
+============================================================ */
 :root {
     --bg-start: #0f172a;
     --bg-end: #1e293b;
@@ -7,8 +12,18 @@
     --text: #e2e8f0;
     --muted: #94a3b8;
     --border: rgba(96, 165, 250, 0.18);
+
+    /* One colour per mode — used for cards, badges, and table cells */
+    --easy: #4ade80;
+    --medium: #38bdf8;
+    --hard: #fb923c;
+    --impossible: #f87171;
 }
 
+
+/* ============================================================
+   RESET & BASE STYLES
+============================================================ */
 * {
     box-sizing: border-box;
 }
@@ -19,16 +34,22 @@ body {
     min-height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text);
-    background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 28%),
+    background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 28%),
         linear-gradient(135deg, var(--bg-start), var(--bg-end));
 }
 
+/* Body as a centered column — every direct child is horizontally centred */
 body {
     display: grid;
     place-items: center;
     padding: 2rem;
 }
 
+
+/* ============================================================
+   PAGE HEADING & DIVIDER
+============================================================ */
 h1 {
     margin: 0 0 0.5rem;
     font-size: clamp(2rem, 3vw, 3.2rem);
@@ -45,8 +66,181 @@ hr {
     margin: 0 auto 1.5rem;
 }
 
+
+/* ============================================================
+   MODE SELECTION SCREEN
+============================================================ */
+
+/* Outer wrapper — centres its children */
+#modeSelection {
+    width: min(100%, 520px);
+    text-align: center;
+}
+
+/* Subtitle above the four mode cards */
+.mode-subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+    margin: 0 0 1rem;
+}
+
+/* 2-column grid that holds the four mode cards */
+.mode-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    width: 100%;
+}
+
+/* Base style for each mode card.
+   These are buttons but styled as cards — not pill-shaped. */
+.mode-btn {
+    min-width: unset;
+    border-radius: 20px;
+    padding: 1.4rem 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left-width: 4px;
+    /* thicker left border carries the mode colour */
+    color: var(--text);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    cursor: pointer;
+}
+
+/* Per-mode left-border colour */
+.mode-btn.easy {
+    border-left-color: var(--easy);
+}
+
+.mode-btn.medium {
+    border-left-color: var(--medium);
+}
+
+.mode-btn.hard {
+    border-left-color: var(--hard);
+}
+
+.mode-btn.impossible {
+    border-left-color: var(--impossible);
+}
+
+/* Hover: lift the card and add a coloured glow */
+.mode-btn:hover {
+    background: rgba(30, 41, 59, 0.98);
+}
+
+.mode-btn.easy:hover {
+    box-shadow: 0 14px 36px rgba(74, 222, 128, 0.18);
+    transform: translateY(-3px);
+}
+
+.mode-btn.medium:hover {
+    box-shadow: 0 14px 36px rgba(56, 189, 248, 0.18);
+    transform: translateY(-3px);
+}
+
+.mode-btn.hard:hover {
+    box-shadow: 0 14px 36px rgba(251, 146, 60, 0.18);
+    transform: translateY(-3px);
+}
+
+.mode-btn.impossible:hover {
+    box-shadow: 0 14px 36px rgba(248, 113, 113, 0.18);
+    transform: translateY(-3px);
+}
+
+/* Text elements inside each mode card */
+.mode-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+/* Per-mode colour for the mode name text */
+.mode-btn.easy .mode-name {
+    color: var(--easy);
+}
+
+.mode-btn.medium .mode-name {
+    color: var(--medium);
+}
+
+.mode-btn.hard .mode-name {
+    color: var(--hard);
+}
+
+.mode-btn.impossible .mode-name {
+    color: var(--impossible);
+}
+
+.mode-range {
+    font-size: 0.875rem;
+    color: var(--text);
+}
+
+.mode-mult {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+
+/* ============================================================
+   GAME AREA WRAPPER
+   Flexbox column that centres all game elements inside it.
+============================================================ */
+#gameArea {
+    width: min(100%, 520px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Mode badge pill shown above the guess card during gameplay */
+#modeBadge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-align: center;
+    margin: 0 0 1rem;
+    padding: 0.35rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(15, 23, 42, 0.7);
+    color: var(--muted);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Each mode class gives the badge its matching colour */
+#modeBadge.easy {
+    color: var(--easy);
+    border-color: rgba(74, 222, 128, 0.35);
+}
+
+#modeBadge.medium {
+    color: var(--medium);
+    border-color: rgba(56, 189, 248, 0.35);
+}
+
+#modeBadge.hard {
+    color: var(--hard);
+    border-color: rgba(251, 146, 60, 0.35);
+}
+
+#modeBadge.impossible {
+    color: var(--impossible);
+    border-color: rgba(248, 113, 113, 0.35);
+}
+
+
+/* ============================================================
+   GUESS INPUT CARD
+============================================================ */
 #guesses {
-    width: min(100%, 420px);
+    width: 100%;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 24px;
@@ -54,6 +248,7 @@ hr {
     box-shadow: 0 24px 80px rgba(15, 23, 42, 0.32);
 }
 
+/* The label wraps the prompt text and the input */
 label {
     display: block;
     font-size: 1rem;
@@ -61,7 +256,10 @@ label {
     color: var(--muted);
 }
 
-input[type="number"] {
+/* Shared styles for all text and number inputs */
+input[type="number"],
+input[type="text"] {
+    display: block;
     width: 100%;
     margin-top: 0.75rem;
     padding: 1rem 1.1rem;
@@ -70,44 +268,48 @@ input[type="number"] {
     background: rgba(15, 23, 42, 0.75);
     color: var(--text);
     font-size: 1rem;
+    font-family: inherit;
     outline: none;
     transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-input[type="number"]:focus {
+/* Remove the up/down spin arrows on number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+/* Blue border highlight when an input is focused */
+input[type="number"]:focus,
+input[type="text"]:focus {
     border-color: var(--accent);
     transform: translateY(-1px);
 }
 
+/* Dimmed style when an input is disabled (e.g. after winning) */
+input:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* ============================================================
+   BUTTONS — BASE STYLES
+   All buttons share this foundation; individual IDs override
+   specific properties like background and colour.
+============================================================ */
 button {
-    min-width: 160px;
+    min-width: 150px;
     border: none;
     border-radius: 999px;
     padding: 0.95rem 1.4rem;
     font-size: 1rem;
+    font-family: inherit;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-}
-
-button#guessButton {
-    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-    color: #0f172a;
-    box-shadow: 0 18px 36px rgba(56, 189, 248, 0.24);
-}
-
-button#resetButton {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid rgba(148, 163, 184, 0.24);
-}
-
-.button-row {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    margin: 1.5rem auto 0;
+    transition: transform 0.15s ease, box-shadow 0.15s ease,
+        background 0.15s ease, opacity 0.15s ease;
 }
 
 button:hover {
@@ -118,35 +320,323 @@ button:active {
     transform: translateY(0);
 }
 
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Primary action button — solid blue gradient */
+button#guessButton {
+    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    color: #0f172a;
+    box-shadow: 0 18px 36px rgba(56, 189, 248, 0.24);
+}
+
+/* Secondary ghost buttons — transparent with a subtle border */
+button#playAgainButton,
+button#changeModeButton,
+button#leaderboardButton {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+/* Save to Leaderboard — gold gradient, only visible after a win */
+button#saveButton {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    color: #1a1000;
+    box-shadow: 0 18px 36px rgba(245, 158, 11, 0.28);
+}
+
+/* Row that holds all the game buttons */
+.button-row {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin: 1.5rem auto 0;
+}
+
+
+/* ============================================================
+   RESULT / FEEDBACK MESSAGE
+   Colour changes based on the state class added by JavaScript.
+============================================================ */
 #finalMessage {
     margin-top: 1.5rem;
-    width: min(100%, 420px);
+    width: 100%;
     padding: 1.25rem 1.5rem;
     background: rgba(15, 23, 42, 0.9);
     border: 1px solid rgba(56, 189, 248, 0.18);
     border-radius: 20px;
     box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
     text-align: center;
-    color: var(--accent-strong);
+    color: var(--muted);
+    /* default: grey placeholder text */
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.7;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
+#finalMessage.hint {
+    color: #fbbf24;
+    border-color: rgba(251, 191, 36, 0.25);
+}
+
+/* amber */
+#finalMessage.error {
+    color: #f87171;
+    border-color: rgba(248, 113, 113, 0.25);
+}
+
+/* red   */
+#finalMessage.win {
+    color: var(--accent-strong);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+/* blue */
+
+
+/* ============================================================
+   UTILITY
+============================================================ */
+
+/* Hides any element. The !important ensures it overrides
+   other display rules (e.g. the modal overlay uses display:flex). */
+.hidden {
+    display: none !important;
+}
+
+
+/* ============================================================
+   SAVE SCORE MODAL
+============================================================ */
+
+/* Full-screen dark overlay behind the modal card */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+}
+
+/* The white (dark-themed) card in the centre of the overlay */
+.modal-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2rem;
+    width: min(90%, 400px);
+    box-shadow: 0 24px 80px rgba(15, 23, 42, 0.6);
+}
+
+.modal-card h2 {
+    margin: 0 0 0.4rem;
+    color: var(--accent-strong);
+    font-size: 1.4rem;
+}
+
+/* Score summary text shown at the top of the modal */
+.modal-score {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0 0 1.25rem;
+}
+
+/* Each input group (label + input + optional error) */
+.modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 1rem;
+}
+
+.modal-field label {
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin-top: 0;
+}
+
+.modal-field input {
+    margin-top: 0;
+}
+
+/* Small red error text that appears below an invalid field */
+.field-error {
+    font-size: 0.8rem;
+    color: #f87171;
+}
+
+/* Row holding the Save and Cancel buttons */
+.modal-buttons {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.modal-buttons button {
+    flex: 1;
+    min-width: unset;
+}
+
+#confirmSaveButton {
+    background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    color: #0f172a;
+    box-shadow: 0 10px 24px rgba(56, 189, 248, 0.2);
+}
+
+#cancelSaveButton {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+
+/* ============================================================
+   LEADERBOARD SECTION
+============================================================ */
+#leaderboardSection {
+    width: min(100%, 600px);
+    margin-top: 2rem;
+    text-align: center;
+}
+
+#leaderboardSection h2 {
+    color: var(--accent-strong);
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+}
+
+/* Allow horizontal scrolling on narrow screens if the table is wide */
+#leaderboardContent {
+    overflow-x: auto;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.leaderboard-table th {
+    padding: 0.75rem 0.9rem;
+    background: rgba(56, 189, 248, 0.08);
+    color: var(--accent);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.leaderboard-table td {
+    padding: 0.75rem 0.9rem;
+    color: var(--text);
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.07);
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* Gold / silver / bronze text for the top three rows */
+.leaderboard-table tbody tr:nth-child(1) td {
+    color: #fbbf24;
+    font-weight: 600;
+}
+
+.leaderboard-table tbody tr:nth-child(2) td {
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+.leaderboard-table tbody tr:nth-child(3) td {
+    color: #cd7c2f;
+    font-weight: 600;
+}
+
+/* Subtle highlight when hovering a row */
+.leaderboard-table tbody tr:hover td {
+    background: rgba(56, 189, 248, 0.04);
+}
+
+/* Mode name cell — each mode key class applies its colour */
+td.mode-cell.easy {
+    color: var(--easy);
+}
+
+td.mode-cell.medium {
+    color: var(--medium);
+}
+
+td.mode-cell.hard {
+    color: var(--hard);
+}
+
+td.mode-cell.impossible {
+    color: var(--impossible);
+}
+
+/* Placeholder shown when no scores are saved yet */
+.no-scores {
+    color: var(--muted);
+    padding: 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin: 0;
+}
+
+/* Clear Leaderboard — small, muted, turns red on hover */
+#clearLeaderboardButton {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    min-width: unset;
+    padding: 0.5rem 1.2rem;
+}
+
+#clearLeaderboardButton:hover {
+    color: #f87171;
+    border-color: rgba(248, 113, 113, 0.4);
+    transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE (screens narrower than 480px)
+============================================================ */
 @media (max-width: 480px) {
     body {
         padding: 1.2rem;
+    }
+
+    /* Stack the mode cards in a single column */
+    .mode-grid {
+        grid-template-columns: 1fr;
     }
 
     #guesses {
         padding: 1.5rem;
     }
 
+    /* Stack all buttons full-width */
     button {
         width: 100%;
-        margin: 0.75rem 0 0;
+        min-width: unset;
     }
 
-    button#resetButton {
-        margin-left: 0;
+    .modal-card {
+        padding: 1.5rem;
     }
 }

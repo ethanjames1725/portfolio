@@ -5,27 +5,173 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Guessing Game</title>
+    <!-- Link to the stylesheet that controls all the visual styling -->
     <link rel="stylesheet" href="GuessingGame.css" />
 </head>
-
+    <!-- This is the first game that I've created using JavaScript and HTML! -->
 <body>
+
+    <!-- Page heading and decorative divider line -->
     <h1>The Guessing Game</h1>
     <hr />
-    <div id="guesses">
-        <label>
-            Try to guess the secret number between 1 and 20! <br /> <br />
-            <input type="number" id="guessInput" placeholder="Enter your guess here" />
-        </label>
+
+    <!-- ============================================================
+         MODE SELECTION SCREEN
+         This is the first thing the player sees. It contains four
+         cards — one per difficulty. When a card is clicked,
+         JavaScript reads its "data-mode" attribute and starts the
+         game in that mode. This section is hidden once a mode
+         is chosen.
+    ============================================================ -->
+    <div id="modeSelection">
+
+        <p class="mode-subtitle">Choose your difficulty</p>
+
+        <!-- Grid of four mode cards.
+             Each button has a class matching its mode name (easy, medium, etc.)
+             and a data-mode attribute that JavaScript reads on click. -->
+        <div class="mode-grid">
+
+            <!-- Easy mode card -->
+            <button type="button" class="mode-btn easy" data-mode="easy">
+                <span class="mode-name">Easy</span>
+                <span class="mode-range">Numbers 1–10</span>
+                <span class="mode-mult">×1 score</span>
+            </button>
+
+            <!-- Medium mode card -->
+            <button type="button" class="mode-btn medium" data-mode="medium">
+                <span class="mode-name">Medium</span>
+                <span class="mode-range">Numbers 1–20</span>
+                <span class="mode-mult">×1.5 score</span>
+            </button>
+
+            <!-- Hard mode card -->
+            <button type="button" class="mode-btn hard" data-mode="hard">
+                <span class="mode-name">Hard</span>
+                <span class="mode-range">Numbers 1–50</span>
+                <span class="mode-mult">×2 score</span>
+            </button>
+
+            <!-- Impossible mode card -->
+            <button type="button" class="mode-btn impossible" data-mode="impossible">
+                <span class="mode-name">Impossible</span>
+                <span class="mode-range">Numbers 1–100</span>
+                <span class="mode-mult">×3 score</span>
+            </button>
+
+        </div>
     </div>
-    <div class="button-row">
-        <button type="button" id="guessButton">Submit Guess</button>
-        <button type="button" id="resetButton">Play Again</button>
+
+
+    <!-- ============================================================
+         MAIN GAME AREA
+         Hidden at page load. Shown by JavaScript once the player
+         picks a mode. Contains the guess input, action buttons,
+         and the result / hint message area.
+    ============================================================ -->
+    <div id="gameArea" class="hidden">
+
+        <!-- Small pill badge that shows the active mode and range.
+             Its text and colour class are set by JavaScript. -->
+        <p id="modeBadge"></p>
+
+        <!-- Guess input card -->
+        <div id="guesses">
+            <label>
+                <!-- This prompt text is filled in by JavaScript based on the chosen mode
+                     (e.g. "Guess the secret number between 1 and 50!") -->
+                <span id="gamePrompt"></span>
+                <input type="number" id="guessInput" placeholder="Enter your guess here" />
+            </label>
+        </div>
+
+        <!-- Action buttons row -->
+        <div class="button-row">
+
+            <!-- Submit the number currently typed in the input -->
+            <button type="button" id="guessButton">Submit Guess</button>
+
+            <!-- Restart immediately with the same difficulty -->
+            <button type="button" id="playAgainButton">Play Again</button>
+
+            <!-- Return to the mode selection screen -->
+            <button type="button" id="changeModeButton">Change Mode</button>
+
+            <!-- Only shown after a winning game with a top-10 score -->
+            <button type="button" id="saveButton" class="hidden">Save to Leaderboard</button>
+
+            <!-- Toggle the leaderboard panel on/off -->
+            <button type="button" id="leaderboardButton">View Leaderboard</button>
+
+        </div>
+
+        <!-- Result / feedback area.
+             Shows "too low", "too high", error messages, or the full
+             win summary. Its colour changes based on the message type. -->
+        <div id="finalMessage">Results will appear here</div>
 
     </div>
-    <br /><br />
-    <div id="finalMessage">Results will appear here</div>
 
+
+    <!-- ============================================================
+         SAVE SCORE MODAL
+         A pop-up overlay that appears when the player wants to
+         save their score to the leaderboard. It collects the
+         player's name. Clicking outside the white card
+         also closes it (handled in JavaScript).
+    ============================================================ -->
+    <div id="saveModal" class="modal-overlay hidden">
+        <div class="modal-card">
+
+            <h2>Save Your Score</h2>
+
+            <!-- Displays the score, mode, and guess count before the player fills in the form -->
+            <p id="modalScoreText" class="modal-score"></p>
+
+            <!-- Name field -->
+            <div class="modal-field">
+                <label for="playerName">Name</label>
+                <input type="text" id="playerName" placeholder="Enter your name" maxlength="20" autocomplete="off" />
+                <!-- Error shown only if the player tries to save without entering a name -->
+                <span class="field-error hidden" id="nameError">Please enter your name.</span>
+            </div>
+
+            <!-- Modal buttons: Save confirms the entry, Cancel closes without saving -->
+            <div class="modal-buttons">
+                <button type="button" id="confirmSaveButton">Save</button>
+                <button type="button" id="cancelSaveButton">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================================================
+         LEADERBOARD SECTION
+         Hidden by default. Toggled by the "View Leaderboard" button.
+         The actual table is built and injected by JavaScript each
+         time the leaderboard is opened. Scores are stored in the
+         browser's localStorage so they persist between sessions.
+    ============================================================ -->
+    <div id="leaderboardSection" class="hidden">
+
+        <h2>Leaderboard</h2>
+
+        <!-- JavaScript builds the scores table and inserts it here -->
+        <div id="leaderboardContent"></div>
+
+        <!-- Clears all saved scores.
+             Uses a two-click confirm pattern in JavaScript — the first
+             click asks "Confirm clear?", the second click actually clears. -->
+        <button type="button" id="clearLeaderboardButton">Clear Leaderboard</button>
+
+    </div>
+
+
+    <!-- JavaScript file linked at the bottom of the body so that all
+         the HTML elements above are already loaded before the script runs. -->
     <script src="GuessingGame.js"></script>
+
 </body>
 
 </html>
